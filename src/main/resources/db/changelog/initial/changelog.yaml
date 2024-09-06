@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_schema
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: create_schema.sql
+            relativeToChangelogFile: true

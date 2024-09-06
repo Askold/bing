@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: criteria_group
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: criteria_group.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: criteria
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: criteria.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: responsibility_class
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: responsibility_class.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: hydro_object
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: hydro_object.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: scenario_group
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: scenario_group.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: scenario
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: scenario.sql
+            relativeToChangelogFile: true

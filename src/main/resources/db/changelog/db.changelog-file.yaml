@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: initial/changelog.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: dictionaries/changelog.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: fillers/changelog.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: linkers/changelog.yaml
+      relativeToChangelogFile: true

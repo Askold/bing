@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: assessment
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: assessment.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: employee
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: employee.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: template
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: template.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: report
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: report.sql
+            relativeToChangelogFile: true
