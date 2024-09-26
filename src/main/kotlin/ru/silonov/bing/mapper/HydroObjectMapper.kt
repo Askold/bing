@@ -11,4 +11,6 @@ interface HydroObjectMapper {
 
     @Mapping(target = "classId", source = "responsibilityClass.id")
     fun toDto(entity: HydroObject): ObjectDto
+
+    fun toEntity(dto: ObjectDto): HydroObject
 }
