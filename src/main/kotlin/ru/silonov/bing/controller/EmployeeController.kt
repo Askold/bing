@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ru.silonov.bing.dto.CreateEmployeeRequestDto
 import ru.silonov.bing.dto.EmployeeDto
+import ru.silonov.bing.dto.LoginRequestDto
 import ru.silonov.bing.service.EmployeeService
 
 @RestController
@@ -27,5 +28,13 @@ class EmployeeController(
     fun getEmployeeByLogin(@PathVariable login: String): ResponseEntity<EmployeeDto> {
         val employee = employeeService.getEmployeeByLogin(login)
         return ResponseEntity.ok(employee)
+    }
+
+    // 5.14
+    @PostMapping("/login")
+    @Operation(summary = "5.14 Авторизация")
+    fun login(@RequestBody request: LoginRequestDto): ResponseEntity<String> {
+        val token = employeeService.login(request)
+        return ResponseEntity.ok(token)
     }
 }
