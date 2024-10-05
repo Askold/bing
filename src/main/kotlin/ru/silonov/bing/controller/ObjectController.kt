@@ -23,15 +23,15 @@ class ObjectController(
         return ResponseEntity.ok(objects)
     }
 
-    @Operation(summary = "Создание объекта")
     @PostMapping
+    @Operation(summary = "Создание объекта")
     fun createObject(@RequestBody requestBody: ObjectDto): ResponseEntity<Void> {
         objectService.create(requestBody)
         return ResponseEntity.ok().build()
     }
 
-    @Operation(summary = "Удаление объекта")
     @DeleteMapping("/{criteriaId}")
+    @Operation(summary = "Удаление объекта")
     fun deleteObject(@PathVariable criteriaId: UUID): ResponseEntity<Void> {
         objectService.delete(criteriaId)
         return ResponseEntity.ok().build()
