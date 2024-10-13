@@ -4,5 +4,6 @@ import java.util.UUID
 
 data class ScenarioCreateDto(
     val name: String,
-    val scenarioGroupId: UUID
+    val scenarioGroupId: UUID,
+    val scenarioNumber: Int
 )

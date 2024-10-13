@@ -34,11 +34,17 @@ class ScenarioService(
     }
 
     @Transactional
-    fun create( scenario: ScenarioCreateDto) {
+    fun create(scenario: ScenarioCreateDto) {
         val scenarioGroup = scenarioGroupRepository.findById(scenario.scenarioGroupId)
             .orElseThrow { NoSuchElementException("HydroObject not found with id: ${scenario.scenarioGroupId}") }
 
-        scenarioRepository.save(Scenario(name = scenario.name, scenarioGroupId = scenarioGroup))
+        scenarioRepository.save(
+            Scenario(
+                name = scenario.name,
+                scenarioGroupId = scenarioGroup,
+                scenarioNumber = scenario.scenarioNumber
+            )
+        )
     }
 
     @Transactional

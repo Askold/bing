@@ -1,6 +1,9 @@
 package ru.silonov.bing.model.fillers
 
 import jakarta.persistence.*
+import org.mapstruct.Mapper
+import ru.silonov.bing.model.dictionaries.HydroObject
+import ru.silonov.bing.model.dictionaries.Scenario
 import java.time.LocalDateTime
 import java.util.*
 
@@ -42,9 +45,6 @@ class Assessment(
     @Column(name = "safety_state_with_e3")
     var safetyStateWithE3: Double? = null,
 
-    @Column(name = "significance_factor")
-    var significanceFactor: Double? = null,
-
     @Column(name = "danger_accident_factor")
     var dangerAccidentFactor: Double? = null,
 
@@ -57,21 +57,26 @@ class Assessment(
     @Column(name = "accident_probability")
     var accidentProbability: Double? = null,
 
-    @Column(name = "object_id")
-    var objectId: String? = null,
+    @ManyToOne
+    @JoinColumn(name = "object_id", nullable = false)
+    var objectId: HydroObject,
 
     @Column(name = "fact_varues")
     var factValues: String? = null,
 
-    @Column(name = "scenario_id")
-    var scenarioId: String? = null,
+    @ManyToOne
+    @JoinColumn(name = "scenario_id", nullable = false)
+    var scenarioId: Scenario,
 
     @Column(name = "created_at")
     var createdAt: LocalDateTime? = null,
 
     @Column(name = "created_by")
-    var createdBy: String? = null
+    var createdBy: String? = null,
 
+    @ManyToOne
+    @JoinColumn(name = "template_id", nullable = false)
+    var template: Template
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

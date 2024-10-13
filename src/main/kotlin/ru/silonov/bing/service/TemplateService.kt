@@ -6,7 +6,7 @@ import ru.silonov.bing.dto.TemplateDto
 import ru.silonov.bing.dto.template.CreateTemplateRequestDTO
 import ru.silonov.bing.dto.template.CreateTemplateResponseDTO
 import ru.silonov.bing.mapper.TemplateMapper
-import ru.silonov.bing.model.linkers.CriteriaTemplate
+import ru.silonov.bing.model.linkers.TemplateCriteriaScenario
 import ru.silonov.bing.repository.CriteriaRepository
 import ru.silonov.bing.repository.CriteriaTemplateRepository
 import ru.silonov.bing.repository.HydroObjectRepository
@@ -35,15 +35,16 @@ class TemplateService(
         template.objectId = hydroObject
         template = templateRepository.save(template)
 
-        val criteriaTemplates: List<CriteriaTemplate> = templateDto.criteries.map {
-            criteriaDTO -> CriteriaTemplate(
-                templateId = template,
-                criteriaId = criteriaRepository.findById(criteriaDTO.id).orElseThrow()
-                     {NoSuchElementException("Criteria not found with id: $templateDto.objectId")},
-                rank = criteriaDTO.rank
-            )
-        }
-        criteriaTemplateRepository.saveAll(criteriaTemplates)
+//        val templateCriteriaScenarios: List<TemplateCriteriaScenario> = templateDto.criteries.map {
+//            criteriaDTO -> TemplateCriteriaScenario(
+//                templateId = template,
+//                criteriaId = criteriaRepository.findById(criteriaDTO.id).orElseThrow()
+//                     {NoSuchElementException("Criteria not found with id: $templateDto.objectId")},
+//                rank = criteriaDTO.rank,
+//
+//            )
+//        }
+//        criteriaTemplateRepository.saveAll(templateCriteriaScenarios)
 
         return templateMapper.toCreateDto(template)
     }

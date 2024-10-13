@@ -12,18 +12,13 @@ import kotlin.NoSuchElementException
 
 @Service
 class ObjectService(
-    private val responsibilityClassRepository: ResponsibilityClassRepository,
     private val objectRepository: HydroObjectRepository,
     private val hydroObjectMapper: HydroObjectMapper
 ) {
 
     @Transactional
     fun create(objectDto: ObjectDto) {
-        val responsibility = responsibilityClassRepository.findById(objectDto.classId)
-            .orElseThrow { NoSuchElementException("ResponsibilityClass not found with id: ${objectDto.classId}") }
-        val entity = HydroObject(id = objectDto.id, name = objectDto.name, responsibilityClass = responsibility)
-
-        objectRepository.save(entity)
+        objectRepository.save(HydroObject(id = objectDto.id, name = objectDto.name))
     }
 
     @Transactional

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS bing.responsibility_class_scenario
+CREATE TABLE IF NOT EXISTS bing.correction_factor
 (
     id          UUID PRIMARY KEY,
     class_id    UUID NOT NULL,

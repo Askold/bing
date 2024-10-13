@@ -4,6 +4,7 @@ import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import ru.silonov.bing.model.dictionaries.HydroObject
+import ru.silonov.bing.model.dictionaries.ResponsibilityClass
 import java.time.LocalDateTime
 import java.util.*
 
@@ -18,6 +19,10 @@ class Template(
     @ManyToOne
     @JoinColumn(name = "object_id", nullable = false)
     var objectId: HydroObject? = null,
+
+    @ManyToOne
+    @JoinColumn(name = "class_id", nullable = false)
+    var classId: ResponsibilityClass? = null,
 
     @Column(name = "author_login", nullable = false)
     var authorLogin: String,

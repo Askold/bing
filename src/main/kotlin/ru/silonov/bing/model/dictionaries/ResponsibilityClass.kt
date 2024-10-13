@@ -17,8 +17,8 @@ data class ResponsibilityClass(
     @Column(name = "significance_factor", nullable = false)
     var significanceFactor: String,
 
-    @OneToMany(mappedBy = "responsibilityClass", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    var hydroObjects: List<HydroObject> = emptyList()
+    @Column(name = "correction_factor", nullable = false)
+    var correctionFactor: String
 ){
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -32,7 +32,6 @@ data class ResponsibilityClass(
 
     override fun toString(): String {
         return "ResponsibilityClass(id=$id, name='$name', " +
-                "significanceFactor='$significanceFactor', " +
-                "hydroObjects=$hydroObjects)"
+                "significanceFactor='$significanceFactor')"
     }
 }

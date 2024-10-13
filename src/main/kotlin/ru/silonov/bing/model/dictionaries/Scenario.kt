@@ -16,5 +16,8 @@ data class Scenario(
 
     @ManyToOne
     @JoinColumn(name = "scenario_group_id", nullable = false)
-    var scenarioGroupId: ScenarioGroup
+    var scenarioGroupId: ScenarioGroup,
+
+    @Column(name = "scenario_number")
+    var scenarioNumber: Int
 )

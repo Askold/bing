@@ -13,10 +13,6 @@ data class HydroObject(
 
     @Column(name = "name", nullable = false)
     var name: String,
-
-    @ManyToOne
-    @JoinColumn(name = "class_id", nullable = false)
-    var responsibilityClass: ResponsibilityClass
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -33,6 +29,6 @@ data class HydroObject(
     }
 
     override fun toString(): String {
-        return "HydroObject(id=$id, name='$name', responsibilityClass=$responsibilityClass)"
+        return "HydroObject(id=$id, name='$name')"
     }
 }

@@ -6,8 +6,8 @@ import ru.silonov.bing.model.dictionaries.ResponsibilityClass
 import ru.silonov.bing.model.dictionaries.Scenario
 
 @Entity
-@Table(name = "responsibility_class_scenario", schema = "bing")
-data class ResponsibilityClassScenario(
+@Table(name = "correction_factor", schema = "bing")
+data class CorrectionFactor(
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // Automatically generates UUID

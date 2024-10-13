@@ -14,6 +14,9 @@ data class ScenarioGroup(
     @Column(name = "name", nullable = false)
     var name: String,
 
+    @Column(name = "danger_koef", nullable = false)
+    var dangerKoef: Int,
+
     @ManyToOne
     @JoinColumn(name = "object_id", nullable = false)
     var objectId: HydroObject,

@@ -1,22 +1,12 @@
 databaseChangeLog:
   - changeSet:
-      id: criteria_scenario
+      id: correction_factor
       author: Kirill Silonov
       dbms: postgresql
       changes:
         - sqlFile:
             endDelimiter: ;
-            path: criteria_scenario.sql
-            relativeToChangelogFile: true
-
-  - changeSet:
-      id: responsibility_class_scenario
-      author: Kirill Silonov
-      dbms: postgresql
-      changes:
-        - sqlFile:
-            endDelimiter: ;
-            path: responsibility_class_scenario.sql
+            path: correction_factor.sql
             relativeToChangelogFile: true
 
   - changeSet:
@@ -30,21 +20,11 @@ databaseChangeLog:
             relativeToChangelogFile: true
 
   - changeSet:
-      id: assessment_report
+      id: template_criteria_scenario
       author: Kirill Silonov
       dbms: postgresql
       changes:
         - sqlFile:
             endDelimiter: ;
-            path: assessment_report.sql
-            relativeToChangelogFile: true
-
-  - changeSet:
-      id: criteria_template
-      author: Kirill Silonov
-      dbms: postgresql
-      changes:
-        - sqlFile:
-            endDelimiter: ;
-            path: criteria_template.sql
+            path: template_criteria_scenario.sql
             relativeToChangelogFile: true

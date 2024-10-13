@@ -9,7 +9,6 @@ import ru.silonov.bing.model.dictionaries.HydroObject
 @Mapper(componentModel = "spring")
 interface HydroObjectMapper {
 
-    @Mapping(target = "classId", source = "responsibilityClass.id")
     fun toDto(entity: HydroObject): ObjectDto
 
     fun toEntity(dto: ObjectDto): HydroObject
