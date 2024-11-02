@@ -1,5 +1,9 @@
 package ru.silonov.bing.dto.scenario
 
+import java.util.*
+
 data class ScenarioDto(
-    val name: String
+    val id: UUID,
+    val name: String,
+    val number: Int
 )

@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import lombok.extern.slf4j.Slf4j
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import ru.silonov.bing.dto.TemplateDto
+import ru.silonov.bing.dto.template.TemplateDto
 import ru.silonov.bing.dto.template.CreateTemplateRequestDTO
 import ru.silonov.bing.dto.template.CreateTemplateResponseDTO
 import ru.silonov.bing.service.TemplateService
@@ -25,6 +25,13 @@ class TemplateController(
     fun getAllTemplates(): ResponseEntity<List<TemplateDto>> {
         val templates = templateService.getAllTemplates()
         return ResponseEntity.ok(templates)
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "5.1 Получение списка шаблонов")
+    fun getById(@PathVariable id: UUID): ResponseEntity<TemplateDto> {
+        val template = templateService.getById(id)
+        return ResponseEntity.ok(template)
     }
 
     // 5.4

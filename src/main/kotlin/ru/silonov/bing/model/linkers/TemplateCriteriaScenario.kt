@@ -29,14 +29,14 @@ data class TemplateCriteriaScenario(
     var scenario: Scenario,
 
     @Column(name = "significance_coefficient")
-    var significanceCoefficient: Int,
+    var significanceCoefficient: Float,
 
     @Column(name = "criteries_rating")
-    var criteriesRating: Int,
+    var criteriesRating: Float,
 
     @Column(name = "criteries_rating_final")
-    var criteriesRatingFinal: Int,
+    var criteriesRatingFinal: Float,
 
     @Column(name = "fact_value")
-    var factValue: Int,
+    var factValue: String? = null
 )

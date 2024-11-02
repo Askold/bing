@@ -28,7 +28,13 @@ class ScenarioService(
             ScenarioListDto(
                 name = scenario.name,
                 scenarioGroupId = scenario.id.toString(),
-                scenaries = scenario.scenarios.map { value -> ScenarioDto(name = value.name) }
+                scenaries = scenario.scenarios.map { value ->
+                    ScenarioDto(
+                        id = value.id!!,
+                        name = value.name,
+                        number = value.scenarioNumber
+                    )
+                },
             )
         }
     }

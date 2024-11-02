@@ -18,13 +18,13 @@ import java.util.UUID
 @RequestMapping("/criteria")
 @Tag(name = "Criteria", description = "Работа с критериями")
 class CriteriaController(
-    val criteriaService: CriteriaService
+    private val criteriaService: CriteriaService
 ) {
 
     // 5.9
-    @GetMapping("/{templateId}")
+    @GetMapping("/list/{templateId}")
     @Operation(summary = "5.9 Получение критериев по шаблону")
-    fun getByTemplateId(@PathVariable templateId: String): ResponseEntity<List<CriteriaDto>> {
+    fun getByTemplateId(@PathVariable(required = false) templateId: String): ResponseEntity<List<CriteriaDto>> {
         return ResponseEntity.ok(criteriaService.findAll())
     }
 

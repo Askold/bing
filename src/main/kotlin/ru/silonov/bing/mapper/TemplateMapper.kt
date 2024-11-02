@@ -3,8 +3,7 @@ package ru.silonov.bing.mapper
 import ru.silonov.bing.model.fillers.Template
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
-import org.mapstruct.MappingTarget
-import ru.silonov.bing.dto.TemplateDto
+import ru.silonov.bing.dto.template.TemplateDto
 import ru.silonov.bing.dto.template.CreateTemplateRequestDTO
 import ru.silonov.bing.dto.template.CreateTemplateResponseDTO
 
@@ -12,10 +11,12 @@ import ru.silonov.bing.dto.template.CreateTemplateResponseDTO
 interface TemplateMapper {
 
     @Mapping(target = "objectId", source = "objectId.id")
+    @Mapping(target = "classId", source = "classId.id")
     fun toDto(entity: Template): TemplateDto
 
     fun toCreateDto(entity: Template): CreateTemplateResponseDTO
 
     @Mapping(target = "objectId", ignore = true)
+    @Mapping(target = "classId", ignore = true)
     fun toEntity(dto: CreateTemplateRequestDTO): Template
 }

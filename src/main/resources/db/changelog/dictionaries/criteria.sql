@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS bing.criteria
 (
     id                UUID PRIMARY KEY,      -- Primary key with UUID generation
     code              VARCHAR(255) NOT NULL, -- Criterion code, required
-    full_name         VARCHAR(255) NOT NULL, -- Full name of the criterion, required
+    full_name         TEXT NOT NULL, -- Full name of the criterion, required
     k1                VARCHAR(255) NOT NULL, -- Indicator K1, required
     k2                VARCHAR(255) NOT NULL, -- Indicator K2, required
     k3                VARCHAR(255) NOT NULL, -- Indicator K3, required
