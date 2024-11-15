@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*
 import ru.silonov.bing.dto.template.TemplateDto
 import ru.silonov.bing.dto.template.CreateTemplateRequestDTO
 import ru.silonov.bing.dto.template.CreateTemplateResponseDTO
+import ru.silonov.bing.dto.template.GetTemplateResponseDto
 import ru.silonov.bing.service.TemplateService
 import java.util.UUID
 
@@ -29,7 +30,7 @@ class TemplateController(
 
     @GetMapping("/{id}")
     @Operation(summary = "5.1 Получение списка шаблонов")
-    fun getById(@PathVariable id: UUID): ResponseEntity<TemplateDto> {
+    fun getById(@PathVariable id: UUID): ResponseEntity<GetTemplateResponseDto> {
         val template = templateService.getById(id)
         return ResponseEntity.ok(template)
     }

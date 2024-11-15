@@ -24,8 +24,8 @@ class CriteriaController(
     // 5.9
     @GetMapping("/list/{templateId}")
     @Operation(summary = "5.9 Получение критериев по шаблону")
-    fun getByTemplateId(@PathVariable(required = false) templateId: String): ResponseEntity<List<CriteriaDto>> {
-        return ResponseEntity.ok(criteriaService.findAll())
+    fun getByTemplateId(@PathVariable(required = false) templateId: UUID): ResponseEntity<List<CriteriaDto>> {
+        return ResponseEntity.ok(criteriaService.findAll(templateId))
     }
 
     @PostMapping

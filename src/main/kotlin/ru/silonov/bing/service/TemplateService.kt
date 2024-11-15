@@ -2,9 +2,7 @@ package ru.silonov.bing.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import ru.silonov.bing.dto.template.TemplateDto
-import ru.silonov.bing.dto.template.CreateTemplateRequestDTO
-import ru.silonov.bing.dto.template.CreateTemplateResponseDTO
+import ru.silonov.bing.dto.template.*
 import ru.silonov.bing.mapper.TemplateMapper
 import ru.silonov.bing.model.dictionaries.ResponsibilityClass
 import ru.silonov.bing.model.fillers.Template
@@ -29,8 +27,26 @@ class TemplateService(
     }
 
     @Transactional(readOnly = true)
-    fun getById(id: UUID): TemplateDto {
-        return templateRepository.findById(id).map { template -> templateMapper.toDto(template) }.orElseThrow()
+    fun getById(id: UUID): GetTemplateResponseDto {
+        return templateRepository.findById(id).map {
+            template -> GetTemplateResponseDto(
+                objectId = template.objectId?.id!!,
+                authorLogin = template.authorLogin,
+                name = template.name,
+                classId = template.classId?.id!!,
+                criteriaScenario = template.templateCriteriaScenarios.map {
+                    criteriaScenario -> GetCriteriaScenarioDto(
+                        criterioId = criteriaScenario.criteriaId.id,
+                        rank = criteriaScenario.rank!!,
+                        scenarioId = criteriaScenario.scenario.id!!,
+                        significanceCoefficient = criteriaScenario.significanceCoefficient,
+                        criteriaRating = criteriaScenario.criteriesRating,
+                        criteriaRatingFinal = criteriaScenario.criteriesRatingFinal,
+                        factValue = criteriaScenario.factValue!!
+                    )
+                }
+            )
+        }.orElseThrow()
         { NoSuchElementException("Template not found with id: $id") }
     }
 
@@ -53,6 +69,7 @@ class TemplateService(
                 classId = respClass
 
             }
+            template = templateRepository.save(template)
         } else {
             template = templateMapper.toEntity(templateDto)
             template.objectId = hydroObject
@@ -73,8 +90,6 @@ class TemplateService(
         }
         criteriaTemplateRepository.saveAll(templateCriteriaScenarios)
         }
-
-        template = templateRepository.save(template)
 
         return templateMapper.toCreateDto(template)
     }

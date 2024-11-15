@@ -5,8 +5,10 @@ import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import ru.silonov.bing.model.dictionaries.HydroObject
 import ru.silonov.bing.model.dictionaries.ResponsibilityClass
+import ru.silonov.bing.model.linkers.TemplateCriteriaScenario
 import java.time.LocalDateTime
 import java.util.*
+import kotlin.collections.List
 
 @Entity
 @Table(name = "template", schema = "bing")
@@ -36,7 +38,10 @@ class Template(
 
     @UpdateTimestamp
     @Column(name = "modified_at", nullable = false)
-    var modifiedAt: LocalDateTime? = null
+    var modifiedAt: LocalDateTime? = null,
+
+    @OneToMany(mappedBy = "templateId", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var templateCriteriaScenarios: MutableList<TemplateCriteriaScenario> = mutableListOf()
 
 ) {
     override fun equals(other: Any?): Boolean {

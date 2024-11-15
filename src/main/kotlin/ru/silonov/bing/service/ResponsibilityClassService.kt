@@ -14,6 +14,7 @@ class ResponsibilityClassService(
     @Transactional(readOnly = true)
     fun findAll(): List<ResponsibilityClassDto> = repository.findAll().stream().map { v ->
         ResponsibilityClassDto(
+            id = v.id!!,
             name = v.name,
             significanceFactor = v.significanceFactor,
             correctionFactor = v.correctionFactor

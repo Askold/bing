@@ -1,6 +1,7 @@
 package ru.silonov.bing.model.linkers
 
 import jakarta.persistence.*
+import ru.silonov.bing.dto.template.CriteriaScenarioDTO
 import ru.silonov.bing.model.dictionaries.Criteria
 import ru.silonov.bing.model.dictionaries.Scenario
 import ru.silonov.bing.model.fillers.Template
@@ -14,7 +15,7 @@ data class TemplateCriteriaScenario(
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null,
 
-    @ManyToOne
+    @ManyToOne(cascade = [(CascadeType.ALL)])
     @JoinColumn(name = "template_id", nullable = false)
     var templateId: Template,
 
