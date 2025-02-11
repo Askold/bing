@@ -18,7 +18,7 @@ class ScenarioController(
 
     @GetMapping("/list")
     @Operation(summary = "5.3 Получение списка сценариев (с критериями)")
-    fun getScenariosByObjectId(@RequestParam objectId: UUID): ResponseEntity<List<ScenarioListDto>> {
+    fun getScenariosByObjectId(@RequestParam(required = false) objectId: UUID?): ResponseEntity<List<ScenarioListDto>> {
         val scenarios = scenarioService.getScenariosByObjectId(objectId)
         return ResponseEntity.ok(scenarios)
     }

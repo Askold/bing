@@ -14,15 +14,14 @@ import java.util.*
 @Service
 class ScenarioService(
     private val scenarioGroupRepository: ScenarioGroupRepository,
-    private val hydroObjectRepository: HydroObjectRepository,
     private val scenarioRepository: ScenarioRepository
 ) {
 
     @Transactional(readOnly = true)
-    fun getScenariosByObjectId(objectId: UUID): List<ScenarioListDto> {
-        val hydroObject = hydroObjectRepository.findById(objectId)
-            .orElseThrow { NoSuchElementException("HydroObject not found with id: $objectId") }
-        val scenarios = scenarioGroupRepository.findByObjectId(hydroObject)
+    fun getScenariosByObjectId(objectId: UUID?): List<ScenarioListDto> {
+        val scenarios =
+            if (objectId != null) scenarioGroupRepository.findByObjectId_Id(objectId)
+            else scenarioGroupRepository.findAll()
 
         return scenarios.map { scenario ->
             ScenarioListDto(
@@ -54,7 +53,5 @@ class ScenarioService(
     }
 
     @Transactional
-    fun delete(id: UUID) {
-        scenarioRepository.findById(id)
-    }
+    fun delete(id: UUID) = scenarioRepository.findById(id)
 }
