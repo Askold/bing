@@ -23,7 +23,7 @@ class CriteriaService(
         val criteriaList: List<Criteria> =
             if (templateId == null) criteriaRepository.findAll()
             else templateCriterioScenarioRepository.findAllByTemplateId(templateId)
-                .map { linker -> linker.criteriaId }
+                .map { it.criteriaId }
 
         return criteriaList.map { criteria -> criteriaMapper.toDto(criteria) }
     }
@@ -39,7 +39,5 @@ class CriteriaService(
     }
 
     @Transactional
-    fun delete(id: UUID) {
-        criteriaRepository.deleteById(id)
-    }
+    fun delete(id: UUID) = criteriaRepository.deleteById(id)
 }

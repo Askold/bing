@@ -48,3 +48,13 @@ databaseChangeLog:
             endDelimiter: ;
             path: scenario.sql
             relativeToChangelogFile: true
+
+  - changeSet:
+      id: responsibility_class
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: responsibility_class.sql
+            relativeToChangelogFile: true

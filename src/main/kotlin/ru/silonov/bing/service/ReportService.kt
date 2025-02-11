@@ -5,12 +5,15 @@ import org.springframework.transaction.annotation.Transactional
 import ru.silonov.bing.dto.report.CreateReportRequestDto
 import ru.silonov.bing.dto.report.ReportDto
 import ru.silonov.bing.dto.report.ReportUpdateDto
+import ru.silonov.bing.factory.AssessmentFactory
+import ru.silonov.bing.factory.AssessmentFactory.getAssessment
 import ru.silonov.bing.mapper.ReportMapper
 import ru.silonov.bing.model.fillers.Report
 import ru.silonov.bing.repository.HydroObjectRepository
 import ru.silonov.bing.repository.ReportRepository
 import ru.silonov.bing.repository.TemplateRepository
 import java.util.UUID
+import java.util.stream.Collectors
 
 @Service
 class ReportService(
@@ -32,6 +35,12 @@ class ReportService(
             .orElseThrow { NoSuchElementException("HydroObject not found with id: $requestDto.objectId") }
         val template = templateRepository.findById(requestDto.templateId)
             .orElseThrow { NoSuchElementException("Template not found with id: $requestDto.templateId") }
+
+        val templateScenarios = template.templateCriteriaScenarios.stream()
+            .collect(Collectors.groupingBy { it.scenario })
+
+        var assessments = templateScenarios.map { getAssessment(it) }
+
         val report = reportRepository.saveAndFlush(Report(
             objectId = hydroObject,
             template = template,

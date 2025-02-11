@@ -18,5 +18,6 @@ interface TemplateMapper {
 
     @Mapping(target = "objectId", ignore = true)
     @Mapping(target = "classId", ignore = true)
+    @Mapping(target = "templateCriteriaScenarios", expression = "java(java.util.Collections.emptyList())")
     fun toEntity(dto: CreateTemplateRequestDTO): Template
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import ru.silonov.bing.dto.criteria.CriteriaDto
 import ru.silonov.bing.service.CriteriaService
@@ -22,9 +23,9 @@ class CriteriaController(
 ) {
 
     // 5.9
-    @GetMapping("/list/{templateId}")
+    @GetMapping("/list")
     @Operation(summary = "5.9 Получение критериев по шаблону")
-    fun getByTemplateId(@PathVariable(required = false) templateId: UUID): ResponseEntity<List<CriteriaDto>> {
+    fun getByTemplateId(@RequestParam(required = false) templateId: UUID?): ResponseEntity<List<CriteriaDto>> {
         return ResponseEntity.ok(criteriaService.findAll(templateId))
     }
 

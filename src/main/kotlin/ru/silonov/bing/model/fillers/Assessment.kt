@@ -13,12 +13,12 @@ class Assessment(
 
     @Id
     @Column(name = "id", nullable = false, unique = true)
-    var id: UUID,
+    var id: UUID? = null,
 
     @Column(name = "technical_state")
     var technicalState: Double? = null,
 
-    @Column(name = "correction_factor_varue")
+    @Column(name = "correction_factor_value")
     var correctionFactorValue: Double? = null,
 
     @Column(name = "technical_state_with_correction")
@@ -84,9 +84,7 @@ class Assessment(
 
         other as Assessment
 
-        if (id != other.id) return false
-
-        return true
+        return id == other.id
     }
 
     override fun hashCode(): Int {
