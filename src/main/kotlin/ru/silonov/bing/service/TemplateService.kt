@@ -2,11 +2,14 @@ package ru.silonov.bing.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import ru.silonov.bing.dto.CreateEmployeeRequestDto
 import ru.silonov.bing.dto.template.*
 import ru.silonov.bing.factory.TemplateCriteriaScenariosFactory
 import ru.silonov.bing.mapper.TemplateMapper
+import ru.silonov.bing.model.fillers.Template
 import ru.silonov.bing.repository.HydroObjectRepository
 import ru.silonov.bing.repository.ResponsibilityClassRepository
+import ru.silonov.bing.repository.TemplateCriterioScenarioRepository
 import ru.silonov.bing.repository.TemplateRepository
 import java.util.*
 
@@ -48,14 +51,17 @@ class TemplateService(
     @Transactional
     fun createTemplate(templateDto: CreateTemplateRequestDTO): CreateTemplateResponseDTO {
         val templateId = templateDto.id
-        val template = templateId?.let {
+        var template = templateId?.let {
             templateRepository.findById(templateId).orElseThrow()
             { NoSuchElementException("Template not found with id: $templateId") }
                 .apply {
                     name = templateDto.name
                     authorLogin = templateDto.authorLogin
                 }
-        } ?: templateMapper.toEntity(templateDto)
+        } ?: Template(
+            name = templateDto.name,
+            authorLogin = templateDto.authorLogin
+        )
 
         template.apply {
             objectId = hydroObjectRepository.findById(templateDto.objectId)
@@ -63,12 +69,19 @@ class TemplateService(
             classId = responsibilityClassRepository.findById(templateDto.classId).orElseThrow()
             { NoSuchElementException("ResponsibilityClass not found with id: ${templateDto.classId}") }
         }
+
         template.templateCriteriaScenarios.clear()
-        template.templateCriteriaScenarios = templateCriteriaScenariosFactory.getTemplateCriteriaScenarioList(template, templateDto)
+//        templateId?.let { templateCriterioScenarioRepository.deleteAllByTemplateId(it) }
+        template.templateCriteriaScenarios.addAll(
+            templateCriteriaScenariosFactory.getTemplateCriteriaScenarioList(
+                template,
+                templateDto
+            )
+        )
 
-        templateRepository.save(template)
+        template = templateRepository.save(template)
 
-        return templateMapper.toCreateDto(template)
+        return (CreateTemplateResponseDTO(template.id.toString()))
     }
 
 

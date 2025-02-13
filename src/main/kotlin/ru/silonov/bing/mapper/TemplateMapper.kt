@@ -13,11 +13,4 @@ interface TemplateMapper {
     @Mapping(target = "objectId", source = "objectId.id")
     @Mapping(target = "classId", source = "classId.id")
     fun toDto(entity: Template): TemplateDto
-
-    fun toCreateDto(entity: Template): CreateTemplateResponseDTO
-
-    @Mapping(target = "objectId", ignore = true)
-    @Mapping(target = "classId", ignore = true)
-    @Mapping(target = "templateCriteriaScenarios", expression = "java(java.util.Collections.emptyList())")
-    fun toEntity(dto: CreateTemplateRequestDTO): Template
 }

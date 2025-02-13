@@ -15,7 +15,7 @@ data class TemplateCriteriaScenario(
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null,
 
-    @ManyToOne(cascade = [(CascadeType.ALL)])
+    @ManyToOne(cascade = [(CascadeType.PERSIST)])
     @JoinColumn(name = "template_id", nullable = false)
     var templateId: Template,
 
