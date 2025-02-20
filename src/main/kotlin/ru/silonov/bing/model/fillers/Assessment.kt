@@ -1,7 +1,6 @@
 package ru.silonov.bing.model.fillers
 
 import jakarta.persistence.*
-import org.mapstruct.Mapper
 import ru.silonov.bing.model.dictionaries.HydroObject
 import ru.silonov.bing.model.dictionaries.Scenario
 import java.time.LocalDateTime
@@ -76,7 +75,11 @@ class Assessment(
 
     @ManyToOne
     @JoinColumn(name = "template_id", nullable = false)
-    var template: Template
+    var template: Template,
+
+    @ManyToOne
+    @JoinColumn(name = "report_id", nullable = false)
+    var report: Report
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

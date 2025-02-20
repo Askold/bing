@@ -17,7 +17,7 @@ class ResponsibilityClassService(
             ResponsibilityClassDto(
                 id = v.id!!,
                 name = v.name,
-                significanceFactor = v.significanceFactor,
+                termOfUseFactor = v.termOfUseFactor,
                 correctionFactor = v.correctionFactor
             )
         }.toList()

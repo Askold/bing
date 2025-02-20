@@ -14,12 +14,12 @@ data class ResponsibilityClass(
     @Column(name = "name", nullable = false)
     var name: String,
 
-    @Column(name = "significance_factor", nullable = false)
-    var significanceFactor: String,
+    @Column(name = "term_of_use_factor", nullable = false)
+    var termOfUseFactor: String,
 
     @Column(name = "correction_factor", nullable = false)
     var correctionFactor: String
-){
+) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ResponsibilityClass) return false
@@ -31,7 +31,6 @@ data class ResponsibilityClass(
     }
 
     override fun toString(): String {
-        return "ResponsibilityClass(id=$id, name='$name', " +
-                "significanceFactor='$significanceFactor')"
+        return "ResponsibilityClass(id=$id, name='$name', termOfUseFactor='$termOfUseFactor', correctionFactor='$correctionFactor')"
     }
 }

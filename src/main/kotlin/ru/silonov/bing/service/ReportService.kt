@@ -6,19 +6,21 @@ import ru.silonov.bing.dto.report.CreateReportRequestDto
 import ru.silonov.bing.dto.report.ReportDto
 import ru.silonov.bing.dto.report.ReportUpdateDto
 import ru.silonov.bing.factory.AssessmentFactory
-import ru.silonov.bing.factory.AssessmentFactory.getAssessment
 import ru.silonov.bing.mapper.ReportMapper
 import ru.silonov.bing.model.fillers.Report
+import ru.silonov.bing.repository.AssessmentRepository
 import ru.silonov.bing.repository.HydroObjectRepository
 import ru.silonov.bing.repository.ReportRepository
 import ru.silonov.bing.repository.TemplateRepository
-import java.util.UUID
+import java.util.*
 import java.util.stream.Collectors
 
 @Service
 class ReportService(
     private val hydroObjectRepository: HydroObjectRepository,
+    private val assessmentRepository: AssessmentRepository,
     private val templateRepository: TemplateRepository,
+    private val assessmentFactory: AssessmentFactory,
     private val reportRepository: ReportRepository,
     private val reportMapper: ReportMapper
 ) {
@@ -39,13 +41,13 @@ class ReportService(
         val templateScenarios = template.templateCriteriaScenarios.stream()
             .collect(Collectors.groupingBy { it.scenario })
 
-        var assessments = templateScenarios.map { getAssessment(it) }
-
         val report = reportRepository.saveAndFlush(Report(
             objectId = hydroObject,
             template = template,
             authorLogin = requestDto.authorLogin,
         ))
+
+        assessmentRepository.saveAll(templateScenarios.map { assessmentFactory.getAssessment(it, report) })
 
         return reportMapper.toDto(report)
     }

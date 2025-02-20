@@ -2,19 +2,6 @@ package ru.silonov.bing.calculator
 
 object AssessmentValuesCalculator {
 
-    private val termOfUseStrategyMap = mapOf(
-        "I" to 0.82,
-        "II" to 0.80,
-        "III" to 0.75,
-        "IV" to 0.70
-    )
-
-    private val dangerAccidentFactorMap = mapOf(
-        "ПЕРВАЯ ГРУППА" to 1.0,
-        "ВТОРАЯ ГРУППА" to 0.9,
-        "ТРЕТЬЯ ГРУППА" to 0.8
-    )
-
     fun getTechnicalState(criteriaRatingFinalList: List<Float>): Double {
         val localMax = criteriaRatingFinalList.max()
         val localMin = criteriaRatingFinalList.min()
@@ -33,8 +20,6 @@ object AssessmentValuesCalculator {
 
     fun getCorrectionFactorValue(technicalState: Double, correctionFactorValue: Double): Double =
         2.0 + (technicalState - 2.0) * correctionFactorValue
-
-    fun getTermOfUseFactor(classId: String): Double = termOfUseStrategyMap[classId]!!
 
     fun getSafetyStateE3(
         technicalState: Double,
@@ -70,7 +55,6 @@ object AssessmentValuesCalculator {
     private fun areAllBetween(rangeStart: Double, rangeEnd: Double, vararg values: Double?): Boolean =
         values.filterNotNull().all { it.isBetween(rangeStart, rangeEnd) }
 
-
     fun safetyStateFormula(
         iMax: Double,
         technicalState: Double,
@@ -79,8 +63,6 @@ object AssessmentValuesCalculator {
     ) = iMax - ((iMax - technicalState) * (iMax - termOfUseMultiply) *
             (constructionStateWithoutE3?.let { iMax - it } ?: 1.0))
 
-
-    fun getDangerAccidentFactor(groupName: String) = dangerAccidentFactorMap[groupName]!!
 
     fun getSafetyScenarioGroupState(dangerAccidentFactor: Double, safetyStateWithE3: Double) =
         2 + dangerAccidentFactor * (safetyStateWithE3 - 2)

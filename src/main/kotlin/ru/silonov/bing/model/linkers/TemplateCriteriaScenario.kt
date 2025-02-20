@@ -1,7 +1,7 @@
 package ru.silonov.bing.model.linkers
 
 import jakarta.persistence.*
-import ru.silonov.bing.dto.template.CriteriaScenarioDTO
+import org.hibernate.proxy.HibernateProxy
 import ru.silonov.bing.model.dictionaries.Criteria
 import ru.silonov.bing.model.dictionaries.Scenario
 import ru.silonov.bing.model.fillers.Template
@@ -39,5 +39,9 @@ data class TemplateCriteriaScenario(
     var criteriesRatingFinal: Float,
 
     @Column(name = "fact_value")
-    var factValue: String? = null
+    var factValue: String? = null,
+
+    @Column(name = "is_criteries_rating_final", nullable = false)
+    var isCriteriesRatingFinal: Boolean = false
 )
+

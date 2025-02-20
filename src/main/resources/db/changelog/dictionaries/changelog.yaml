@@ -58,3 +58,13 @@ databaseChangeLog:
             endDelimiter: ;
             path: scenario.sql
             relativeToChangelogFile: true
+
+  - changeSet:
+      id: accident_probability
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: accident_probability.sql
+            relativeToChangelogFile: true
