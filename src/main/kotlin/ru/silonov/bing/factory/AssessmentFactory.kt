@@ -8,7 +8,6 @@ import ru.silonov.bing.calculator.AssessmentValuesCalculator.getSafetyStateE3
 import ru.silonov.bing.calculator.AssessmentValuesCalculator.getTechnicalState
 import ru.silonov.bing.model.dictionaries.Scenario
 import ru.silonov.bing.model.fillers.Assessment
-import ru.silonov.bing.model.fillers.Report
 import ru.silonov.bing.model.linkers.TemplateCriteriaScenario
 import ru.silonov.bing.service.AccidentProbabilityService
 import ru.silonov.bing.service.ScenarioGroupService
@@ -19,10 +18,10 @@ class AssessmentFactory(
     private val scenarioGroupService: ScenarioGroupService
 ) {
 
-    fun getAssessment(entry: Map.Entry<Scenario, MutableList<TemplateCriteriaScenario>>, report: Report): Assessment {
-        val template = entry.value[0].templateId
+    fun getAssessment(entry: Map.Entry<Scenario, MutableList<TemplateCriteriaScenario>>): Assessment {
+        val template = entry.value[0].uniqueKey.template
         val hydroObject = template.objectId!!
-        val criteriaRatingFinalList = entry.value.map { it.criteriesRatingFinal }
+        val criteriaRatingFinalList = entry.value.map { it.criteriesRatingFinal!! }
         val responsibilityClass = template.classId!!
 
         val technicalState = getTechnicalState(criteriaRatingFinalList)
@@ -51,8 +50,7 @@ class AssessmentFactory(
             dangerAccidentFactor = dangerAccidentFactor,
             safetyScenarioGroupState = safetyScenarioGroupState,
             finalSafetyLevel = finalSafetyLevel,
-            accidentProbability = accidentProbabilityService.getAccidentProbability(responsibilityClass, finalSafetyLevel),
-            report = report
+            accidentProbability = accidentProbabilityService.getAccidentProbability(responsibilityClass, finalSafetyLevel)
         )
     }
 }

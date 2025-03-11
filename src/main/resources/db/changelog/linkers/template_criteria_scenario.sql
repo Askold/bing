@@ -6,10 +6,11 @@ CREATE TABLE IF NOT EXISTS bing.template_criteria_scenario
     rank                      INT,
     scenario_id               UUID    NOT NULL,
     significance_coefficient  FLOAT   NOT NULL,
-    criteries_rating          FLOAT   NOT NULL,
-    criteries_rating_final    FLOAT   NOT NULL,
+    criteries_rating          FLOAT,
+    criteries_rating_final    FLOAT,
     fact_value                varchar NOT NULL,
     is_criteries_rating_final boolean not null default false,
+    assessment_id             uuid,
 
     CONSTRAINT fk_criteria
         FOREIGN KEY (criteria_id)
@@ -19,5 +20,8 @@ CREATE TABLE IF NOT EXISTS bing.template_criteria_scenario
             REFERENCES bing.scenario (id),
     CONSTRAINT fk_template
         FOREIGN KEY (template_id)
-            REFERENCES bing.template (id)
+            REFERENCES bing.template (id),
+    CONSTRAINT fk_assessment
+        FOREIGN KEY (assessment_id)
+            REFERENCES bing.assessment (id)
 );

@@ -13,9 +13,5 @@ data class GetTemplateResponseDto(
 data class GetCriteriaScenarioDto(
     val criterioId: UUID,
     val rank: Int,
-    val scenarioId: UUID,
-    val significanceCoefficient: Float,
-    val criteriaRating: Float,
-    val criteriaRatingFinal: Float,
-    val factValue: String,
+    val scenarioId: UUID
 )

@@ -5,9 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import ru.silonov.bing.dto.report.CreateReportRequestDto
 import ru.silonov.bing.dto.report.ReportDto
-import ru.silonov.bing.dto.report.ReportUpdateDto
 import ru.silonov.bing.service.ReportService
 import java.util.UUID
 
@@ -24,22 +22,6 @@ class ReportController(
     fun getAllReports(): ResponseEntity<List<ReportDto>> {
         val reports = reportService.getAllReports()
         return ResponseEntity.ok(reports)
-    }
-
-    // 5.7
-    @PostMapping
-    @Operation(summary = "5.7 Создание отчета")
-    fun createReport(@RequestBody reportDto: CreateReportRequestDto): ResponseEntity<ReportDto> {
-        val createdReport = reportService.createReport(reportDto)
-        return ResponseEntity.ok(createdReport)
-    }
-
-    // 5.8
-    @PutMapping("/{id}")
-    @Operation(summary = "5.8 Редактирование отчетов")
-    fun updateReport(@PathVariable id: UUID, @RequestBody reportUpdateDto: ReportUpdateDto): ResponseEntity<Void> {
-        reportService.updateReport(id, reportUpdateDto)
-        return ResponseEntity(HttpStatus.OK)
     }
 
     // 5.10

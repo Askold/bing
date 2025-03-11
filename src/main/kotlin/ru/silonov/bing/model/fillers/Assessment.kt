@@ -79,7 +79,7 @@ class Assessment(
 
     @ManyToOne
     @JoinColumn(name = "report_id", nullable = false)
-    var report: Report
+    var report: Report?= null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

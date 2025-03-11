@@ -29,9 +29,9 @@ class TemplateController(
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "5.1 Получение списка шаблонов")
+    @Operation(summary = "5.6 Вернуть данные по шаблону")
     fun getById(@PathVariable id: UUID): ResponseEntity<GetTemplateResponseDto> {
-        val template = templateService.getById(id)
+        val template = templateService.getResponseDtoById(id)
         return ResponseEntity.ok(template)
     }
 

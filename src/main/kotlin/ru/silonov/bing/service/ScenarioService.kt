@@ -18,6 +18,9 @@ class ScenarioService(
 ) {
 
     @Transactional(readOnly = true)
+    fun getById(id: UUID): Scenario = scenarioRepository.findById(id).orElseThrow() { NoSuchElementException("Scenario not found with id: $id") }
+
+    @Transactional(readOnly = true)
     fun getScenariosByObjectId(objectId: UUID?): List<ScenarioListDto> {
         val scenarios =
             if (objectId != null) scenarioGroupRepository.findByObjectId_Id(objectId)

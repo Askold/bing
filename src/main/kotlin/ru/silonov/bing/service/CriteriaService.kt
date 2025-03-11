@@ -19,11 +19,15 @@ class CriteriaService(
 ) {
 
     @Transactional(readOnly = true)
+    fun getById(id: UUID): Criteria = criteriaRepository.findById(id).orElseThrow()
+    { java.util.NoSuchElementException("Criteria not found with id: $id") }
+
+    @Transactional(readOnly = true)
     fun findAll(templateId: UUID?): List<CriteriaDto> {
         val criteriaList: List<Criteria> =
             if (templateId == null) criteriaRepository.findAll()
             else templateCriterioScenarioRepository.findAllByTemplateId(templateId)
-                .map { it.criteriaId }
+                .map { it.uniqueKey.criteria }
 
         return criteriaList.map { criteria -> criteriaMapper.toDto(criteria) }
     }

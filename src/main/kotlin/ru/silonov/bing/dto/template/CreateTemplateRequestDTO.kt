@@ -14,6 +14,5 @@ data class CreateTemplateRequestDTO(
 data class CriteriaScenarioDTO(
     val criteriaId: UUID,
     val scenarioId: UUID,
-    val rank: Int,
-    val factValue: String
+    val rank: Int
 )

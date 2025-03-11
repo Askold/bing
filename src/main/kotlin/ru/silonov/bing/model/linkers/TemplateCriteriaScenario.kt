@@ -1,11 +1,9 @@
 package ru.silonov.bing.model.linkers
 
 import jakarta.persistence.*
-import org.hibernate.proxy.HibernateProxy
-import ru.silonov.bing.model.dictionaries.Criteria
-import ru.silonov.bing.model.dictionaries.Scenario
-import ru.silonov.bing.model.fillers.Template
-import java.util.UUID
+import ru.silonov.bing.model.TemplateUniqueKey
+import ru.silonov.bing.model.fillers.Assessment
+import java.util.*
 
 @Entity
 @Table(name = "template_criteria_scenario", schema = "bing")
@@ -15,33 +13,49 @@ data class TemplateCriteriaScenario(
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null,
 
-    @ManyToOne(cascade = [(CascadeType.PERSIST)])
-    @JoinColumn(name = "template_id", nullable = false)
-    var templateId: Template,
-
-    @ManyToOne
-    @JoinColumn(name = "criteria_id", nullable = false)
-    var criteriaId: Criteria,
-
     var rank: Int?,
-
-    @ManyToOne
-    @JoinColumn(name = "scenario_id", nullable = false)
-    var scenario: Scenario,
 
     @Column(name = "significance_coefficient")
     var significanceCoefficient: Float,
 
     @Column(name = "criteries_rating")
-    var criteriesRating: Float,
+    var criteriesRating: Float? = null,
 
     @Column(name = "criteries_rating_final")
-    var criteriesRatingFinal: Float,
+    var criteriesRatingFinal: Float? = null,
 
     @Column(name = "fact_value")
     var factValue: String? = null,
 
     @Column(name = "is_criteries_rating_final", nullable = false)
-    var isCriteriesRatingFinal: Boolean = false
-)
+    var isCriteriesRatingFinal: Boolean = false,
 
+    @ManyToOne
+    @JoinColumn(name = "assessment_id")
+    var assessment: Assessment? = null,
+
+    @Embedded
+    var uniqueKey: TemplateUniqueKey
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+
+        other as TemplateCriteriaScenario
+
+        if (id != other.id) return false
+        if (uniqueKey != other.uniqueKey) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + (uniqueKey.hashCode())
+        return result
+    }
+
+    override fun toString(): String {
+        return "TemplateCriteriaScenario(id=$id, rank=$rank, significanceCoefficient=$significanceCoefficient, criteriesRating=$criteriesRating, criteriesRatingFinal=$criteriesRatingFinal, factValue=$factValue, isCriteriesRatingFinal=$isCriteriesRatingFinal, assessment=$assessment, uniqueKey=$uniqueKey)"
+    }
+}
