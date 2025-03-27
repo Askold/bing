@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS bing.template_criteria_scenario
     significance_coefficient  FLOAT   NOT NULL,
     criteries_rating          FLOAT,
     criteries_rating_final    FLOAT,
-    fact_value                varchar NOT NULL,
+    fact_value                varchar,
     is_criteries_rating_final boolean not null default false,
     assessment_id             uuid,
 
