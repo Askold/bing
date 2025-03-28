@@ -2,7 +2,7 @@ package ru.silonov.bing.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import ru.silonov.bing.decorator.TemplateCriteriaScenarioDecorator.calculateWithFactValue
+import ru.silonov.bing.decorator.TemplateCriteriaScenarioDecorator.calculateValues
 import ru.silonov.bing.dto.assessment.CreateAssessmentRequestDto
 import ru.silonov.bing.model.TemplateUniqueKey
 import ru.silonov.bing.model.linkers.TemplateCriteriaScenario
@@ -31,7 +31,7 @@ class TemplateCriterioScenarioService(
                     criteria = criteriaService.getById(it.criteriaId),
                     scenario = scenarioService.getById(it.scenarioId)
                 )
-            ).calculateWithFactValue(it.factValue)
+            ).calculateValues(it)
         }
 
         return templateCriterioScenarioRepository.saveAll(templateCriteriaScenarios)

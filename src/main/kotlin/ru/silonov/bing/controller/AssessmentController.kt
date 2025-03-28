@@ -21,8 +21,8 @@ class AssessmentController (
     // 5.7
     @PostMapping
     @Operation(summary = "5.7 Создание оценок")
-    fun createReport(@RequestBody reportDto: CreateAssessmentRequestDto): ResponseEntity<CreateAssessmentResponseDTO> {
-        val result  = assessmentService.calculateValuesAndSaveAssessment(reportDto)
+    fun createAssessment(@RequestBody assessmentDto: CreateAssessmentRequestDto): ResponseEntity<CreateAssessmentResponseDTO> {
+        val result  = assessmentService.calculateValuesAndSaveAssessment(assessmentDto)
         return ResponseEntity.ok(result)
     }
 

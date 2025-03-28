@@ -12,9 +12,9 @@ data class CriteriaScenario(
     val criteriaId: UUID,
     val rank: Int,
     val scenarioId: UUID,
-    val significanceCoefficient: Float,
-    val criteriaRating: Float,
-    val criteriaRatingFinal: Float,
+    val significanceCoefficient: Float? = null,
+    val criteriaRating: Float? = null,
+    val criteriaRatingFinal: Float? = null,
     val isCriteriaRatingFinalManual: Boolean,
     val factValue: String
 )
