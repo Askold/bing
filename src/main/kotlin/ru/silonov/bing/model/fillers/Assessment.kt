@@ -60,7 +60,7 @@ class Assessment(
     @JoinColumn(name = "object_id", nullable = false)
     var objectId: HydroObject,
 
-    @Column(name = "fact_varues")
+    @Column(name = "fact_values")
     var factValues: String? = null,
 
     @ManyToOne
