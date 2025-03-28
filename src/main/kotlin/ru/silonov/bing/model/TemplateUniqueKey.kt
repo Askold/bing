@@ -1,9 +1,6 @@
 package ru.silonov.bing.model
 
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Embeddable
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import ru.silonov.bing.model.dictionaries.Criteria
 import ru.silonov.bing.model.dictionaries.Scenario
 import ru.silonov.bing.model.fillers.Template

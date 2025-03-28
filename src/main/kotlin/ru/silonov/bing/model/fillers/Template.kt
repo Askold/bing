@@ -40,7 +40,7 @@ class Template(
     @Column(name = "modified_at", nullable = false)
     var modifiedAt: LocalDateTime? = null,
 
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "uniqueKey.template", cascade = [CascadeType.ALL], orphanRemoval = true)
     var templateCriteriaScenarios: MutableList<TemplateCriteriaScenario> = mutableListOf()
 
 ) {
