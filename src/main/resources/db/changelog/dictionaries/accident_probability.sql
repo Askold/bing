@@ -8,5 +8,8 @@ CREATE TABLE IF NOT EXISTS bing.accident_probability
 
     CONSTRAINT fk_resp_class
         FOREIGN KEY (responsibility_class_id)
-            REFERENCES bing.responsibility_class (id)
+            REFERENCES bing.responsibility_class (id),
+
+    CONSTRAINT unique_resp_class_final_safety_level
+        UNIQUE (final_safety_level, responsibility_class_id)
 );

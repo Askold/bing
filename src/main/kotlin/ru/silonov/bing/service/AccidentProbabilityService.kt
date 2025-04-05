@@ -12,6 +12,6 @@ class AccidentProbabilityService(
     
     fun getAccidentProbability(responsibilityClass: ResponsibilityClass, finalSafetyLevel: String): Double =
         repository.findByResponsibilityClassAndFinalSafetyLevel(responsibilityClass, finalSafetyLevel).orElseThrow()
-        { NoSuchElementException("AccidentProbability not found with class id: $responsibilityClass and finalSafetyLevel: $finalSafetyLevel") }
+        { NoSuchElementException("AccidentProbability not found with class id: ${responsibilityClass.id} and finalSafetyLevel: $finalSafetyLevel") }
         .accidentProbabilityValue
 }
