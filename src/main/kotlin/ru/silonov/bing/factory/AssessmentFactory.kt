@@ -50,7 +50,7 @@ class AssessmentFactory(
             dangerAccidentFactor = dangerAccidentFactor,
             safetyScenarioGroupState = safetyScenarioGroupState,
             finalSafetyLevel = finalSafetyLevel,
-            accidentProbability = accidentProbabilityService.getAccidentProbability(responsibilityClass, finalSafetyLevel)
+            accidentProbability = accidentProbabilityService.getAccidentProbability(responsibilityClass, finalSafetyLevel, safetyScenarioGroupState)
         )
     }
 }

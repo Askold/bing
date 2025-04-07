@@ -9,9 +9,11 @@ import java.util.NoSuchElementException
 class AccidentProbabilityService(
     private val repository: AccidentProbabilityRepository
 ) {
-    
-    fun getAccidentProbability(responsibilityClass: ResponsibilityClass, finalSafetyLevel: String): Double =
-        repository.findByResponsibilityClassAndFinalSafetyLevel(responsibilityClass, finalSafetyLevel).orElseThrow()
+
+    fun getAccidentProbability(responsibilityClass: ResponsibilityClass, finalSafetyLevel: String, safetyScenarioGroupState: Double): Double =
+        repository.findByResponsibilityClassAndFinalSafetyLevelAndSafetyScenarioGroupState(
+            responsibilityClass, finalSafetyLevel, safetyScenarioGroupState.toString()
+        ).orElseThrow()
         { NoSuchElementException("AccidentProbability not found with class id: ${responsibilityClass.id} and finalSafetyLevel: $finalSafetyLevel") }
-        .accidentProbabilityValue
+            .accidentProbabilityValue
 }

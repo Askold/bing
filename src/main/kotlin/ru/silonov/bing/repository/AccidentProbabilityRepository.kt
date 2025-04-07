@@ -1,4 +1,4 @@
-package ru.silonov.bing.repository;
+package ru.silonov.bing.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import ru.silonov.bing.model.dictionaries.AccidentProbability
@@ -7,5 +7,7 @@ import java.util.*
 
 interface AccidentProbabilityRepository : JpaRepository<AccidentProbability, UUID> {
 
-    fun findByResponsibilityClassAndFinalSafetyLevel(responsibilityClass: ResponsibilityClass, finalSafetyLevel: String): Optional<AccidentProbability>
+    fun findByResponsibilityClassAndFinalSafetyLevelAndSafetyScenarioGroupState(
+        responsibilityClass: ResponsibilityClass, finalSafetyLevel: String, safetyScenarioGroupState: String
+    ): Optional<AccidentProbability>
 }
