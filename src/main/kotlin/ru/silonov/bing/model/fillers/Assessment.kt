@@ -11,7 +11,7 @@ import java.util.*
 class Assessment(
 
     @Id
-    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null,
 
     @Column(name = "technical_state")
@@ -75,8 +75,8 @@ class Assessment(
     var template: Template,
 
     @ManyToOne
-    @JoinColumn(name = "report_id", nullable = false)
-    var report: Report?= null
+    @JoinColumn(name = "report_id")
+    var report: Report? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

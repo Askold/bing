@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS bing.assessment
     construction_state_with_e3      DOUBLE PRECISION, -- Показатель соответствия сооружения действующим нормам с учетом критериев подгруппы Е3
     safety_state_without_e3         DOUBLE PRECISION, -- Показатель безопасности сооружения без учета критериев подгруппы Е3
     safety_state_with_e3            DOUBLE PRECISION, -- Показатель безопасности сооружения с учетом критериев подгруппы Е3
-    report_id                       UUID NOT NULL,
+    report_id                       UUID,
     danger_accident_factor          DOUBLE PRECISION, -- Коэффициент, учитывающий степень опасности для сооружения и окружающей среды
     safety_scenario_group_state     DOUBLE PRECISION, -- Показатель безопасности для конкретного сценария в зависимости от группы аварии
     final_safety_level              VARCHAR(255),     -- Итоговый уровень безопасности
