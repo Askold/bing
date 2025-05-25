@@ -3,6 +3,7 @@ package ru.silonov.bing.dto.assessment
 import java.util.UUID
 
 data class CreateAssessmentRequestDto(
+    val reportId: UUID?,
     val templateId: UUID,
     val authorLogin: String,
     val criteriaScenario: List<CriteriaScenario>

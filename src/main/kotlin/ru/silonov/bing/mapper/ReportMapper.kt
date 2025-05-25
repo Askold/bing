@@ -7,7 +7,6 @@ import ru.silonov.bing.model.fillers.Report
 
 @Mapper(componentModel = "spring")
 interface ReportMapper {
-
-    @Mapping(target = "objectId", source = "objectId.id")
+    @Mapping(target = "assessments", ignore = true)
     fun toDto(entity: Report): ReportDto
 }

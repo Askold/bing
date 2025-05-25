@@ -14,15 +14,18 @@ class AssessmentService(
     private val templateCriterioScenarioService: TemplateCriterioScenarioService,
     private val assessmentRepository: AssessmentRepository,
     private val assessmentFactory: AssessmentFactory,
+    private val reportService: ReportService
 ) {
 
     @Transactional
     fun calculateValuesAndSaveAssessment(request: CreateAssessmentRequestDto): CreateAssessmentResponseDTO {
 
+        val report = reportService.getByIdOrCreate(request.reportId, request.authorLogin)
+
         val templateCriteriaScenarios = templateCriterioScenarioService.updateAllByRequestAndReturn(request)
             .stream().collect(Collectors.groupingBy { it.uniqueKey.scenario })
 
-        val result = assessmentRepository.saveAll(templateCriteriaScenarios.map { assessmentFactory.getAssessment(it) })
+        val result = assessmentRepository.saveAll(templateCriteriaScenarios.map { assessmentFactory.getAssessment(it, report) })
 
         return CreateAssessmentResponseDTO(result.map { it.id!! })
     }

@@ -6,6 +6,7 @@ import org.hibernate.annotations.Type
 import org.hibernate.annotations.UpdateTimestamp
 import ru.silonov.bing.model.dictionaries.CriteriaGroup
 import ru.silonov.bing.model.dictionaries.HydroObject
+import ru.silonov.bing.model.linkers.TemplateCriteriaScenario
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -17,12 +18,9 @@ class Report(
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null,
 
-    @ManyToOne
-    @JoinColumn(name = "object_id", nullable = false)
-    var objectId: HydroObject,
-
-    @Column(name = "json_values", columnDefinition = "jsonb")
-    var jsonValues: String? = null,
+    @Column(name = "modified_at", nullable = false)
+    @OneToMany(mappedBy = "report", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var assessments: MutableList<Assessment> = mutableListOf(),
 
     @Column(name = "author_login", nullable = false)
     var authorLogin: String,
@@ -34,11 +32,6 @@ class Report(
     @UpdateTimestamp
     @Column(name = "modified_at", nullable = false)
     var modifiedAt: LocalDateTime? = null,
-
-    @ManyToOne
-    @JoinColumn(name = "template_id", nullable = false)
-    var template: Template
-
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -46,9 +39,7 @@ class Report(
 
         other as Report
 
-        if (id != other.id) return false
-
-        return true
+        return id == other.id
     }
 
     override fun hashCode(): Int {
