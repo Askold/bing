@@ -5,12 +5,14 @@ import org.springframework.transaction.annotation.Transactional
 import ru.silonov.bing.dto.report.ReportDto
 import ru.silonov.bing.mapper.AssessmentMapper
 import ru.silonov.bing.mapper.ReportMapper
+import ru.silonov.bing.mapper.TemplateCriteriaScenarioMapper
 import ru.silonov.bing.model.fillers.Report
 import ru.silonov.bing.repository.ReportRepository
 import java.util.*
 
 @Service
 class ReportService(
+    private val templateCriteriaScenarioMapper: TemplateCriteriaScenarioMapper,
     private val assessmentMapper: AssessmentMapper,
     private val reportRepository: ReportRepository,
     private val reportMapper: ReportMapper
@@ -27,6 +29,9 @@ class ReportService(
         { NoSuchElementException("Report not found with id: $reportId") }
 
         return reportMapper.toDto(report).apply {
+            criteriaScenario = report.assessments.flatMap { it.templateCriteriaScenarios.map {
+                template -> templateCriteriaScenarioMapper.toDto(template)
+            } }
             assessments = report.assessments.map { assessmentMapper.toDto(it) }
         }
     }

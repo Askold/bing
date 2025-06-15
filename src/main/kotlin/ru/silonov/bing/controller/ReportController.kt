@@ -29,7 +29,7 @@ class ReportController(
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "5.6 Получение списка отчетов")
+    @Operation(summary = "5.6 Получение детального отчета")
     fun getReport(@PathVariable id: UUID): ResponseEntity<ReportDto> {
         return ResponseEntity.ok(reportService.getById(id))
     }
