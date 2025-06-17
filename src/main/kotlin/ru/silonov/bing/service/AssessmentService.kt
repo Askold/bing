@@ -20,7 +20,7 @@ class AssessmentService(
     @Transactional
     fun calculateValuesAndSaveAssessment(request: CreateAssessmentRequestDto): CreateAssessmentResponseDTO {
 
-        val report = reportService.getByIdOrCreate(request.reportId, request.authorLogin)
+        val report = reportService.getByIdOrCreate(request)
 
         val templateCriteriaScenarios = templateCriterioScenarioService.updateAllByRequestAndReturn(request)
             .stream().collect(Collectors.groupingBy { it.uniqueKey.scenario })

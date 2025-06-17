@@ -2,6 +2,7 @@ package ru.silonov.bing.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import ru.silonov.bing.dto.assessment.CreateAssessmentRequestDto
 import ru.silonov.bing.dto.report.ReportDto
 import ru.silonov.bing.mapper.AssessmentMapper
 import ru.silonov.bing.mapper.ReportMapper
@@ -15,13 +16,26 @@ class ReportService(
     private val templateCriteriaScenarioMapper: TemplateCriteriaScenarioMapper,
     private val assessmentMapper: AssessmentMapper,
     private val reportRepository: ReportRepository,
+    private val templateService: TemplateService,
     private val reportMapper: ReportMapper
 ) {
 
     @Transactional
-    fun getByIdOrCreate(reportId: UUID?, authorLogin: String): Report =
-        if (reportId != null) reportRepository.findById(reportId).orElse(createWithLogin(authorLogin))
-        else createWithLogin(authorLogin)
+    fun getByIdOrCreate(request: CreateAssessmentRequestDto): Report =
+        if (request.reportId != null) reportRepository.findById(request.reportId).orElseThrow {
+            NoSuchElementException("Report not found with id: ${request.reportId}")
+        }
+        else {
+            val template = templateService.getById(request.templateId)
+            reportRepository.save(
+                Report
+                    (
+                    authorLogin = request.authorLogin,
+                    template = template,
+                    objectId = template.objectId!!
+                )
+            )
+        }
 
     @Transactional(readOnly = true)
     fun getById(reportId: UUID): ReportDto {
@@ -29,14 +43,15 @@ class ReportService(
         { NoSuchElementException("Report not found with id: $reportId") }
 
         return reportMapper.toDto(report).apply {
-            criteriaScenario = report.assessments.flatMap { it.templateCriteriaScenarios.map {
-                template -> templateCriteriaScenarioMapper.toDto(template)
-            } }
+            criteriaScenario = report.assessments.flatMap {
+                it.templateCriteriaScenarios.map { template ->
+                    templateCriteriaScenarioMapper.toDto(template)
+                }
+            }
             assessments = report.assessments.map { assessmentMapper.toDto(it) }
         }
     }
 
-    fun createWithLogin(authorLogin: String) = reportRepository.save(Report(authorLogin = authorLogin))
 
     @Transactional(readOnly = true)
     fun getAllReports(): List<ReportDto> {

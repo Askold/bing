@@ -18,6 +18,10 @@ class Report(
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null,
 
+    @ManyToOne
+    @JoinColumn(name = "object_id", nullable = false)
+    var objectId: HydroObject,
+
     @Column(name = "modified_at", nullable = false)
     @OneToMany(mappedBy = "report", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var assessments: MutableList<Assessment> = mutableListOf(),
@@ -32,6 +36,10 @@ class Report(
     @UpdateTimestamp
     @Column(name = "modified_at", nullable = false)
     var modifiedAt: LocalDateTime? = null,
+
+    @ManyToOne
+    @JoinColumn(name = "template_id", nullable = false)
+    var template: Template
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
