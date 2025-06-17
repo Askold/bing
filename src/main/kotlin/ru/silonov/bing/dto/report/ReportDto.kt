@@ -9,10 +9,10 @@ data class ReportDto(
     val id: UUID,
     val templateId: UUID,
     val authorLogin: String,
-    var criteriaScenario: List<CriteriaScenarioReportDTO>,
+    var criteriaScenario: List<CriteriaScenarioReportDTO>? ,
     val objectId: UUID,
     val jsonValues: String? = null,
     val createdAt: LocalDateTime,
     val modifiedAt: LocalDateTime,
-    var assessments: List<GetAssessmentResponseDto>
+    var assessments: List<GetAssessmentResponseDto>?,
 )
