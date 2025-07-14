@@ -7,7 +7,7 @@ import java.util.*
 
 @Entity
 @Table(name = "template_criteria_scenario", schema = "bing")
-data class TemplateCriteriaScenario(
+class TemplateCriteriaScenario(
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,7 +30,7 @@ data class TemplateCriteriaScenario(
     @Column(name = "is_criteries_rating_final", nullable = false)
     var isCriteriesRatingFinal: Boolean = false,
 
-    @ManyToOne
+    @ManyToOne(cascade = [(CascadeType.ALL)])
     @JoinColumn(name = "assessment_id")
     var assessment: Assessment? = null,
 
@@ -53,9 +53,5 @@ data class TemplateCriteriaScenario(
         var result = id?.hashCode() ?: 0
         result = 31 * result + (uniqueKey.hashCode())
         return result
-    }
-
-    override fun toString(): String {
-        return "TemplateCriteriaScenario(id=$id, rank=$rank, significanceCoefficient=$significanceCoefficient, criteriesRating=$criteriesRating, criteriesRatingFinal=$criteriesRatingFinal, factValue=$factValue, isCriteriesRatingFinal=$isCriteriesRatingFinal, assessment=$assessment, uniqueKey=$uniqueKey)"
     }
 }

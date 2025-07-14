@@ -1,6 +1,8 @@
 package ru.silonov.bing.factory
 
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
 import ru.silonov.bing.calculator.AssessmentValuesCalculator.getCorrectionFactorValue
 import ru.silonov.bing.calculator.AssessmentValuesCalculator.getFinalSafetyLevel
 import ru.silonov.bing.calculator.AssessmentValuesCalculator.getSafetyScenarioGroupState
@@ -10,15 +12,18 @@ import ru.silonov.bing.model.dictionaries.Scenario
 import ru.silonov.bing.model.fillers.Assessment
 import ru.silonov.bing.model.fillers.Report
 import ru.silonov.bing.model.linkers.TemplateCriteriaScenario
+import ru.silonov.bing.repository.AssessmentRepository
 import ru.silonov.bing.service.AccidentProbabilityService
 import ru.silonov.bing.service.ScenarioGroupService
 
 @Component
 class AssessmentFactory(
     private val accidentProbabilityService: AccidentProbabilityService,
+    private val assessmentRepository: AssessmentRepository,
     private val scenarioGroupService: ScenarioGroupService
 ) {
 
+    @Transactional
     fun getAssessment(entry: Map.Entry<Scenario, MutableList<TemplateCriteriaScenario>>, report: Report): Assessment {
         val template = entry.value[0].uniqueKey.template
         val hydroObject = template.objectId!!
@@ -36,11 +41,10 @@ class AssessmentFactory(
         val safetyScenarioGroupState = getSafetyScenarioGroupState(dangerAccidentFactor, safetyStateWithE3)
         val finalSafetyLevel = getFinalSafetyLevel(safetyScenarioGroupState)
 
-        return Assessment(
+        return assessmentRepository.save(Assessment(
             scenarioId = entry.key,
             template = template,
             objectId = hydroObject,
-            templateCriteriaScenarios = entry.value,
             technicalState = technicalState,
             correctionFactorValue = correctionFactorValue,
             technicalStateWithCorrection = getCorrectionFactorValue(technicalState, correctionFactorValue),
@@ -54,6 +58,6 @@ class AssessmentFactory(
             finalSafetyLevel = finalSafetyLevel,
             accidentProbability = accidentProbabilityService.getAccidentProbability(responsibilityClass, finalSafetyLevel, safetyScenarioGroupState),
             report = report
-        )
+        ))
     }
 }

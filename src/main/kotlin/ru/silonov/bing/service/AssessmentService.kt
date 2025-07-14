@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.silonov.bing.dto.assessment.CreateAssessmentRequestDto
 import ru.silonov.bing.dto.assessment.CreateAssessmentResponseDTO
-
 import ru.silonov.bing.factory.AssessmentFactory
-import ru.silonov.bing.repository.*
 import java.util.stream.Collectors
 
 @Service
@@ -18,16 +16,15 @@ class AssessmentService(
 
     @Transactional
     fun calculateValuesAndSaveAssessment(request: CreateAssessmentRequestDto): CreateAssessmentResponseDTO {
+        val report = reportService.getByIdOrCreate(request)
 
-        var report = reportService.getByIdOrCreate(request)
+        val templateCriteriaScenarios = templateCriterioScenarioService.getCalculated(request)
 
-        val templateCriteriaScenarios = templateCriterioScenarioService.updateAllByRequestAndReturn(request)
-            .stream().collect(Collectors.groupingBy { it.uniqueKey.scenario })
+        templateCriteriaScenarios.stream()
+            .collect(Collectors.groupingBy { it.uniqueKey.scenario })
+            .forEach { it.value.forEach { v -> v.assessment = assessmentFactory.getAssessment(it, report) } }
 
-        report = reportService.save(report.apply {
-            assessments.addAll(templateCriteriaScenarios.map { assessmentFactory.getAssessment(it, report) })
-        })
-
+        templateCriterioScenarioService.saveAll(templateCriteriaScenarios)
         return CreateAssessmentResponseDTO(report.id!!)
     }
 }
