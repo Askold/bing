@@ -50,6 +50,8 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.6.0")
     kapt("org.mapstruct:mapstruct-processor:1.6.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+    implementation("org.apache.poi:poi:5.2.3")
+    implementation("org.apache.poi:poi-ooxml:5.2.3")
 }
 
 kotlin {

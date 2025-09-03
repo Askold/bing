@@ -1,8 +1,11 @@
 package ru.silonov.bing.service
 
 import mu.KotlinLogging
+import org.apache.poi.ss.usermodel.*
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 import ru.silonov.bing.dto.assessment.CreateAssessmentRequestDto
 import ru.silonov.bing.dto.report.ReportDto
 import ru.silonov.bing.mapper.AssessmentMapper
@@ -10,7 +13,9 @@ import ru.silonov.bing.mapper.ReportMapper
 import ru.silonov.bing.mapper.TemplateCriteriaScenarioMapper
 import ru.silonov.bing.model.fillers.Report
 import ru.silonov.bing.repository.ReportRepository
+import java.io.ByteArrayOutputStream
 import java.util.*
+import java.util.stream.Collectors
 
 @Service
 class ReportService(
@@ -68,5 +73,52 @@ class ReportService(
     }
 
     @Transactional
-    fun save(report: Report): Report = reportRepository.save(report).also { logger.info { "Report saved: $it" } }
+    fun createFile(id: UUID): ByteArray {
+        val report = reportRepository.findById(id).orElseThrow {
+            NoSuchElementException("Report not found with id: $id")
+        }
+        val scenariosMap = report.assessments.map { it.scenarioId }.stream().collect(Collectors.groupingBy { it.scenarioGroupId })
+        val resultMap = LinkedHashMap<String, String>()
+        scenariosMap.forEach {
+            resultMap[it.key.name] = it.key.dangerKoef.toString()
+            it.value.forEach { scenario ->
+                run {
+                    resultMap[scenario.scenarioNumber.toString()] = scenario.name
+                }
+            }
+        }
+
+        val workbook: Workbook = XSSFWorkbook()
+        val sheet: Sheet = workbook.createSheet("Результат")
+
+        // Create header row
+        val headerRow: Row = sheet.createRow(0)
+        val headers = listOf("№", "Сценарии аварий")
+
+        headers.forEachIndexed { index, header ->
+            val cell = headerRow.createCell(index)
+            cell.setCellValue(header)
+            val style: CellStyle = workbook.createCellStyle()
+            val font: Font = workbook.createFont()
+            font.bold = true
+            style.setFont(font)
+            cell.cellStyle = style
+        }
+
+        val rowIndex = 0
+        resultMap.forEach {
+            val row: Row = sheet.createRow(rowIndex + 1)
+            val cellNumber = row.createCell(0)
+            cellNumber.setCellValue(it.key)
+            val cellName = row.createCell(1)
+            cellName.setCellValue(it.value)
+        }
+
+        return ByteArrayOutputStream().use { outputStream ->
+            workbook.write(outputStream)
+            outputStream.toByteArray()
+        }.also {
+            workbook.close()
+        }
+    }
 }
