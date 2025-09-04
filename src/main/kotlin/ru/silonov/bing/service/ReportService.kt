@@ -27,8 +27,6 @@ class ReportService(
     private val reportMapper: ReportMapper
 ) {
 
-    private val logger = KotlinLogging.logger {}
-
     @Transactional
     fun getByIdOrCreate(request: CreateAssessmentRequestDto): Report =
         if (request.reportId != null) reportRepository.findById(request.reportId).orElseThrow {

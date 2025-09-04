@@ -12,6 +12,7 @@ import java.util.stream.Collectors
 @Service
 class AssessmentService(
     private val templateCriterioScenarioService: TemplateCriterioScenarioService,
+    private val assessmentRepository: AssessmentRepository,
     private val assessmentFactory: AssessmentFactory,
     private val reportService: ReportService
 ) {
@@ -19,15 +20,13 @@ class AssessmentService(
     @Transactional
     fun calculateValuesAndSaveAssessment(request: CreateAssessmentRequestDto): CreateAssessmentResponseDTO {
 
-        var report = reportService.getByIdOrCreate(request)
+        val report = reportService.getByIdOrCreate(request)
 
         val templateCriteriaScenarios = templateCriterioScenarioService.updateAllByRequestAndReturn(request)
             .stream().collect(Collectors.groupingBy { it.uniqueKey.scenario })
 
-        report = reportService.save(report.apply {
-            assessments.addAll(templateCriteriaScenarios.map { assessmentFactory.getAssessment(it, report) })
-        })
+        val result = assessmentRepository.saveAll(templateCriteriaScenarios.map { assessmentFactory.getAssessment(it, report) })
 
-        return CreateAssessmentResponseDTO(report.id!!)
+        return CreateAssessmentResponseDTO(result.map { it.id!! })
     }
 }
