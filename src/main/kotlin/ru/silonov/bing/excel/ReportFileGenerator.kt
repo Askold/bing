@@ -125,7 +125,7 @@ object ReportFileGenerator {
     private fun Workbook.addFinal(report: Report): Workbook {
         val assessments = report.assessments
 
-        val sheet: Sheet = this.createSheet("Результат общий").addHeaders(listOf(
+        val sheet: Sheet = this.createSheet("Итог").addHeaders(listOf(
             "Сценарий",
             "ТС",
             "Ку",
