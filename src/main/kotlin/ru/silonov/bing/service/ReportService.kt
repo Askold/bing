@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import ru.silonov.bing.dto.assessment.CreateAssessmentRequestDto
 import ru.silonov.bing.dto.report.ReportDto
+import ru.silonov.bing.excel.ReportFileGenerator.generateReport
 import ru.silonov.bing.mapper.AssessmentMapper
 import ru.silonov.bing.mapper.ReportMapper
 import ru.silonov.bing.mapper.TemplateCriteriaScenarioMapper
@@ -79,49 +80,6 @@ class ReportService(
         val report = reportRepository.findById(id).orElseThrow {
             NoSuchElementException("Report not found with id: $id")
         }
-        val scenariosMap = report.assessments.map { it.scenarioId }.stream().collect(Collectors.groupingBy { it.scenarioGroupId })
-        val resultMap = LinkedHashMap<String, String>()
-        scenariosMap.forEach {
-            resultMap[it.key.name] = it.key.dangerKoef.toString()
-            it.value.forEach { scenario ->
-                run {
-                    resultMap[scenario.scenarioNumber.toString()] = scenario.name
-                }
-            }
-        }
-
-        val workbook: Workbook = XSSFWorkbook()
-        val sheet: Sheet = workbook.createSheet("Результат")
-
-        // Create header row
-        val headerRow: Row = sheet.createRow(0)
-        val headers = listOf("№", "Сценарии аварий")
-
-        headers.forEachIndexed { index, header ->
-            val cell = headerRow.createCell(index)
-            cell.setCellValue(header)
-            val style: CellStyle = workbook.createCellStyle()
-            val font: Font = workbook.createFont()
-            font.bold = true
-            style.setFont(font)
-            cell.cellStyle = style
-        }
-
-        var rowIndex = 0
-        resultMap.forEach {
-            rowIndex++
-            val row: Row = sheet.createRow(rowIndex)
-            val cellNumber = row.createCell(0)
-            cellNumber.setCellValue(it.key)
-            val cellName = row.createCell(1)
-            cellName.setCellValue(it.value)
-        }
-
-        return ByteArrayOutputStream().use { outputStream ->
-            workbook.write(outputStream)
-            outputStream.toByteArray()
-        }.also {
-            workbook.close()
-        }
+        return generateReport(report)
     }
 }
