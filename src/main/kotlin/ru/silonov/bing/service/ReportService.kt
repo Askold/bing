@@ -76,10 +76,7 @@ class ReportService(
     }
 
     @Transactional
-    fun createFile(id: UUID): ByteArray {
-        val report = reportRepository.findById(id).orElseThrow {
-            NoSuchElementException("Report not found with id: $id")
-        }
-        return generateReport(report)
-    }
+    fun createFile(id: UUID): ByteArray = generateReport(reportRepository.findById(id).orElseThrow {
+        NoSuchElementException("Report not found with id: $id")
+    })
 }
