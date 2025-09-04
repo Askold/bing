@@ -47,7 +47,7 @@ class ReportController(
         return ResponseEntity.noContent().build()
     }
 
-    @PostMapping("/file}")
+    @PostMapping("/file")
     @Operation(summary = "5.10 Удаление отчета")
     fun createFile(@RequestParam id: UUID): ResponseEntity<ByteArray> = ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=employees_${LocalDate.now().format(ofPattern("yyyyMMdd"))}.xlsx")
