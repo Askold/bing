@@ -16,6 +16,7 @@ import ru.silonov.bing.repository.ReportRepository
 import java.io.ByteArrayOutputStream
 import java.util.*
 import java.util.stream.Collectors
+import kotlin.math.log
 
 @Service
 class ReportService(
@@ -62,7 +63,10 @@ class ReportService(
 
 
     @Transactional(readOnly = true)
-    fun getAllReports(): List<ReportDto> = reportRepository.findAll().map { report -> reportMapper.toDto(report) }
+    fun getAllReports(): List<ReportDto> {
+        val reports = reportRepository.findAll()
+        return reports.map { report -> reportMapper.toDto(report) }
+    }
 
     @Transactional
     fun deleteReport(id: UUID) {

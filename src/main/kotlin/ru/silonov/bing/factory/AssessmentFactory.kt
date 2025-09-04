@@ -40,7 +40,6 @@ class AssessmentFactory(
             scenarioId = entry.key,
             template = template,
             objectId = hydroObject,
-            templateCriteriaScenarios = entry.value,
             technicalState = technicalState,
             correctionFactorValue = correctionFactorValue,
             technicalStateWithCorrection = getCorrectionFactorValue(technicalState, correctionFactorValue),
