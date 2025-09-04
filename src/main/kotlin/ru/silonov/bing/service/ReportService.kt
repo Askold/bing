@@ -105,9 +105,10 @@ class ReportService(
             cell.cellStyle = style
         }
 
-        val rowIndex = 0
+        var rowIndex = 0
         resultMap.forEach {
-            val row: Row = sheet.createRow(rowIndex + 1)
+            rowIndex++
+            val row: Row = sheet.createRow(rowIndex)
             val cellNumber = row.createCell(0)
             cellNumber.setCellValue(it.key)
             val cellName = row.createCell(1)
