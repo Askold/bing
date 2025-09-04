@@ -59,7 +59,7 @@ object ReportFileGenerator {
             "Критерии групп безопасности Г, Д, Е"
         ), this)
 
-        var rowIndex = 0
+        var rowIndex = 1
         scenarios.forEach {
             sheet.createRow(rowIndex++, listOf(
                 it.uniqueKey.scenario.scenarioNumber.toString(),
@@ -97,7 +97,7 @@ object ReportFileGenerator {
             "Верх.гр.расчетной вероятности возникновения аварии (1/год)"
         ), this)
 
-        var rowIndex = 0
+        var rowIndex = 1
         assessments.forEach {
             sheet.createRow(rowIndex++, listOf(
                 it.scenarioId.scenarioNumber.toString(),
@@ -144,7 +144,7 @@ object ReportFileGenerator {
             "Верх.гр.расчетной вероятности возникновения аварии (1/год)"
         ), this)
 
-        var rowIndex = 0
+        var rowIndex = 1
         assessments.forEach {
             sheet.createRow(rowIndex++, listOf(
                 it.scenarioId.scenarioNumber.toString(),
