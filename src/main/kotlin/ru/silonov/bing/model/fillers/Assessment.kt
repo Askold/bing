@@ -1,7 +1,6 @@
 package ru.silonov.bing.model.fillers
 
 import jakarta.persistence.*
-import org.hibernate.annotations.CreationTimestamp
 import ru.silonov.bing.model.dictionaries.HydroObject
 import ru.silonov.bing.model.dictionaries.Scenario
 import ru.silonov.bing.model.linkers.TemplateCriteriaScenario
@@ -66,7 +65,6 @@ class Assessment(
     @JoinColumn(name = "scenario_id", nullable = false)
     var scenarioId: Scenario,
 
-    @CreationTimestamp
     @Column(name = "created_at")
     var createdAt: LocalDateTime? = null,
 
@@ -82,7 +80,7 @@ class Assessment(
     var report: Report? = null,
 
     @OneToMany(mappedBy = "assessment", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var templateCriteriaScenarios: MutableList<TemplateCriteriaScenario> = mutableListOf()
+    var templateCriteriaScenarios: List<TemplateCriteriaScenario> = mutableListOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

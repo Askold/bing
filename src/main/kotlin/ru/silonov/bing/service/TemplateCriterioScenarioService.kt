@@ -1,7 +1,6 @@
 package ru.silonov.bing.service
 
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import ru.silonov.bing.decorator.TemplateCriteriaScenarioDecorator.calculateValues
 import ru.silonov.bing.dto.assessment.CreateAssessmentRequestDto
@@ -21,8 +20,8 @@ class TemplateCriterioScenarioService(
     fun getByUnique(unique: TemplateUniqueKey): TemplateCriteriaScenario = templateCriterioScenarioRepository.findByUniqueKey(unique)
         .orElseThrow { NoSuchElementException("TemplateCriteriaService not found with uniqueKey: ") }
 
-    @Transactional(readOnly = true)
-    fun getCalculated(request: CreateAssessmentRequestDto): List<TemplateCriteriaScenario> {
+    @Transactional
+    fun updateAllByRequestAndReturn(request: CreateAssessmentRequestDto): List<TemplateCriteriaScenario> {
         val template = templateService.getById(request.templateId)
 
         val templateCriteriaScenarios = request.criteriaScenario.map {
@@ -35,9 +34,6 @@ class TemplateCriterioScenarioService(
             ).calculateValues(it)
         }
 
-        return templateCriteriaScenarios
+        return templateCriterioScenarioRepository.saveAll(templateCriteriaScenarios)
     }
-
-    @Transactional
-    fun saveAll(values: List<TemplateCriteriaScenario>)  = templateCriterioScenarioRepository.saveAll(values)
 }
