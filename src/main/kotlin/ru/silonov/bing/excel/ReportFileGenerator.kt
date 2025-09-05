@@ -2,7 +2,7 @@ package ru.silonov.bing.excel
 
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import ru.silonov.bing.excel.ReportFileGenerator.addGeneralResult
+import ru.silonov.bing.model.fillers.Assessment
 import ru.silonov.bing.model.fillers.Report
 import java.io.ByteArrayOutputStream
 import java.util.stream.Collectors
@@ -14,8 +14,8 @@ object ReportFileGenerator {
         val workbook: Workbook = XSSFWorkbook()
             .addScenarios(report)
             .addCalculatedValues(report)
-            .addGeneralResult(report)
-            .addFinal(report)
+            .addGeneralResult(report.assessments, "Результат общий")
+            .addGeneralResult(report.assessments.filter { it.finalTechnicalState != "Работоспособное" }, "Итог")
 
         return ByteArrayOutputStream().use { outputStream ->
             workbook.write(outputStream)
@@ -39,7 +39,7 @@ object ReportFileGenerator {
 
         val sheet: Sheet = this.createSheet("Сценарии").addHeaders(listOf("№", "Сценарии аварий"), this)
 
-        var rowIndex = 0
+        var rowIndex = 1
         resultMap.forEach { sheet.createRow(rowIndex++, listOf(it.key, it.value)) }
 
         return this
@@ -75,57 +75,8 @@ object ReportFileGenerator {
         return this
     }
 
-    private fun Workbook.addGeneralResult(report: Report): Workbook {
-        val assessments = report.assessments
-
-        val sheet: Sheet = this.createSheet("Результат общий").addHeaders(listOf(
-            "Сценарий",
-            "ТС",
-            "Ку",
-            "Тсу",
-            "Вид тех. состояния",
-            "УЭ",
-            "Куэ",
-            "НП(е1,е2)",
-            "БС(е1,е2)",
-            "НП (е3)",
-            "Кнпi",
-            "БС(е1, е2 + е3)",
-            "Ксц",
-            "БСсц",
-            "Уровень безопасности",
-            "Верх.гр.расчетной вероятности возникновения аварии (1/год)"
-        ), this)
-
-        var rowIndex = 1
-        assessments.forEach {
-            sheet.createRow(rowIndex++, listOf(
-                it.scenarioId.scenarioNumber.toString(),
-                it.technicalState.toString(),
-                it.correctionFactorValue.toString(),
-                it.technicalStateWithCorrection.toString(),
-                it.finalTechnicalState.toString(),
-                it.termOfUseState.toString(),
-                it.termOfUseFactor.toString(),
-                it.constructionStateWithoutE3.toString(),
-                it.safetyStateWithoutE3.toString(),
-                it.safetyStateWithE3.toString(),
-                "",
-                it.safetyStateWithE3.toString(),
-                it.dangerAccidentFactor.toString(),
-                it.safetyScenarioGroupState.toString(),
-                it.finalSafetyLevel.toString(),
-                it.accidentProbability.toString()
-            ))
-        }
-
-        return this
-    }
-
-    private fun Workbook.addFinal(report: Report): Workbook {
-        val assessments = report.assessments
-
-        val sheet: Sheet = this.createSheet("Итог").addHeaders(listOf(
+    private fun Workbook.addGeneralResult(assessments: List<Assessment>, sheetName: String): Workbook {
+        val sheet: Sheet = this.createSheet(sheetName).addHeaders(listOf(
             "Сценарий",
             "ТС",
             "Ку",
