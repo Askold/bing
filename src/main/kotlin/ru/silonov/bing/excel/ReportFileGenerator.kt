@@ -155,7 +155,7 @@ object ReportFileGenerator {
 
         legend.forEach{
             rowIndex++
-            sheet.createRow(rowIndex).createCell(0, it.key)
+            sheet.createRow(rowIndex).createCell(1, it.key)
             sheet.createRow(rowIndex).createCell(12, it.value)
             sheet.addMergedRegion(CellRangeAddress(rowIndex, rowIndex, 0, 11))
             sheet.addMergedRegion(CellRangeAddress(rowIndex, rowIndex, 12, 15))
