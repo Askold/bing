@@ -78,7 +78,7 @@ object ReportFileGenerator {
                 ), this
             )
 
-        var rowIndex = 1
+        var rowIndex = 2
         scenarios.forEach {
             sheet.createRow(
                 rowIndex++, listOf(
@@ -120,7 +120,7 @@ object ReportFileGenerator {
                 ), this
             )
 
-        var rowIndex = 1
+        var rowIndex = 2
         assessments.forEach {
             sheet.createRow(
                 rowIndex++, listOf(
@@ -143,6 +143,24 @@ object ReportFileGenerator {
                 )
             )
         }
+
+        val legend = mapOf(
+            "Вид технического состояния:" to "Уровень безопаности:",
+            "И - исправное" to "Нр - нормальный",
+            "Р - работоспособное" to "П - пониженный",
+            "ОР - ограниченно работоспособное" to "Нд - неудовлетворительный",
+            "П - предаварийное" to "О - опасный",
+            "А - аварийное" to "",
+        )
+
+        legend.forEach{
+            rowIndex++
+            sheet.createRow(rowIndex).createCell(0, it.key)
+            sheet.createRow(rowIndex).createCell(12, it.value)
+            sheet.addMergedRegion(CellRangeAddress(rowIndex, rowIndex, 0, 11))
+            sheet.addMergedRegion(CellRangeAddress(rowIndex, rowIndex, 12, 15))
+        }
+
 
         return this
     }
