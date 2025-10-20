@@ -2,12 +2,14 @@ package ru.silonov.bing.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import ru.silonov.bing.dto.CreateEmployeeRequestDto
 import ru.silonov.bing.dto.EmployeeDto
 import ru.silonov.bing.service.EmployeeService
 
 @RestController
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/employee")
 class EmployeeController(
     private val employeeService: EmployeeService

@@ -38,3 +38,13 @@ databaseChangeLog:
             endDelimiter: ;
             path: assessment.sql
             relativeToChangelogFile: true
+
+  - changeSet:
+      id: refresh_token
+      author: Kirill Silonov
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            path: refresh_token.sql
+            relativeToChangelogFile: true

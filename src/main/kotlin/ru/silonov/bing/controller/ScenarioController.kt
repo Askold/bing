@@ -3,6 +3,7 @@ package ru.silonov.bing.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import ru.silonov.bing.dto.scenario.ScenarioCreateDto
 import ru.silonov.bing.dto.scenario.ScenarioListDto
@@ -12,6 +13,7 @@ import java.util.UUID
 @RestController
 @RequestMapping("/scenario")
 @Tag(name = "Scenario", description = "Работа со сценариями")
+@PreAuthorize("hasRole('ADMIN') or hasAuthority('POSITION_WORKER')")
 class ScenarioController(
     private val scenarioService: ScenarioService
 ) {

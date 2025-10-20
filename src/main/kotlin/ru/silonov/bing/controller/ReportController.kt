@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import ru.silonov.bing.dto.assessment.CreateAssessmentRequestDto
 import ru.silonov.bing.dto.assessment.CreateAssessmentResponseDTO
@@ -17,6 +18,7 @@ import java.util.*
 @RestController
 @RequestMapping("/report")
 @Tag(name = "Report", description = "Работа с отчетами")
+@PreAuthorize("hasRole('ADMIN') or hasAuthority('POSITION_WORKER')")
 class ReportController(
     private val assessmentService: AssessmentService,
     private val reportService: ReportService

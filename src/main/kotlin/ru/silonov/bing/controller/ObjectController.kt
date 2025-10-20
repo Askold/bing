@@ -3,6 +3,7 @@ package ru.silonov.bing.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import ru.silonov.bing.dto.ObjectDto
 import ru.silonov.bing.service.ObjectService
@@ -11,6 +12,7 @@ import java.util.UUID
 @Tag(name = "Object", description = "Работа с объектами")
 @RestController
 @RequestMapping("/object")
+@PreAuthorize("hasRole('ADMIN') or hasAuthority('POSITION_WORKER')")
 class ObjectController(
     private val objectService: ObjectService
 ) {
