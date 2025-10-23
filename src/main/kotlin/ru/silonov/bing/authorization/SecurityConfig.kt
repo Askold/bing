@@ -45,7 +45,17 @@ class SecurityConfig(
             .csrf { it.disable() }
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/api/auth/**", "/swagger-ui/*", "/v3/api-docs/*").permitAll()
+                    .requestMatchers(
+                        "/api/auth/**",
+                        "/api/auth/**",
+                        "/swagger-ui/*",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**",
+                        "/v3/api-docs.yaml",
+                        "/swagger-resources/**",
+                        "/webjars/**"
+                    )
+                    .permitAll()
                     .anyRequest().authenticated()
             }
             .sessionManagement { session ->
