@@ -45,7 +45,7 @@ class SecurityConfig(
             .csrf { it.disable() }
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/api/auth/**", "/employee").permitAll()
+                    .requestMatchers("/api/auth/**", "/swagger-ui/*").permitAll()
                     .anyRequest().authenticated()
             }
             .sessionManagement { session ->
